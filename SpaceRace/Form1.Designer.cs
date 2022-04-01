@@ -1,7 +1,7 @@
 ﻿
 namespace SpaceRace
 {
-    partial class Space
+    partial class Run
     {
         /// <summary>
         /// Required designer variable.
@@ -30,10 +30,8 @@ namespace SpaceRace
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Space));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Run));
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
-            this.p1Score = new System.Windows.Forms.Label();
-            this.p2Score = new System.Windows.Forms.Label();
             this.winLabel = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
             this.SubTitle = new System.Windows.Forms.Label();
@@ -43,30 +41,6 @@ namespace SpaceRace
             // 
             this.gameTimer.Interval = 20;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
-            // 
-            // p1Score
-            // 
-            this.p1Score.AutoSize = true;
-            this.p1Score.BackColor = System.Drawing.Color.Transparent;
-            this.p1Score.Font = new System.Drawing.Font("MS Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.p1Score.ForeColor = System.Drawing.Color.White;
-            this.p1Score.Location = new System.Drawing.Point(495, 301);
-            this.p1Score.Name = "p1Score";
-            this.p1Score.Size = new System.Drawing.Size(27, 27);
-            this.p1Score.TabIndex = 0;
-            this.p1Score.Text = "0";
-            // 
-            // p2Score
-            // 
-            this.p2Score.AutoSize = true;
-            this.p2Score.BackColor = System.Drawing.Color.Transparent;
-            this.p2Score.Font = new System.Drawing.Font("MS Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.p2Score.ForeColor = System.Drawing.Color.White;
-            this.p2Score.Location = new System.Drawing.Point(57, 301);
-            this.p2Score.Name = "p2Score";
-            this.p2Score.Size = new System.Drawing.Size(27, 27);
-            this.p2Score.TabIndex = 1;
-            this.p2Score.Text = "0";
             // 
             // winLabel
             // 
@@ -100,21 +74,20 @@ namespace SpaceRace
             this.SubTitle.TabIndex = 4;
             this.SubTitle.Click += new System.EventHandler(this.SubTitle_Click);
             // 
-            // Space
+            // Run
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.SubTitle);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.winLabel);
-            this.Controls.Add(this.p2Score);
-            this.Controls.Add(this.p1Score);
             this.DoubleBuffered = true;
+            this.ForeColor = System.Drawing.Color.DarkGray;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Space";
-            this.Text = "Space Chaser";
+            this.Name = "Run";
+            this.Text = "Space run";
             this.Load += new System.EventHandler(this.Space_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
@@ -127,8 +100,6 @@ namespace SpaceRace
         #endregion
 
         private System.Windows.Forms.Timer gameTimer;
-        private System.Windows.Forms.Label p1Score;
-        private System.Windows.Forms.Label p2Score;
         private System.Windows.Forms.Label winLabel;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label SubTitle;
