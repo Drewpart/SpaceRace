@@ -3,30 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace SpaceRace
 {
-    internal class Carss
+    internal class rightCars
     {
-        // colour, rectangle 
-        public int size = 8;
+        public int size = 12;
         public int xSpeed = 8;
         public int x, y;
 
-        public Carss(int _x, int _y, int _speed)
+        public rightCars(int _x, int _y)
         {
             x = _x;
             y = _y;
-            xSpeed = _speed;
         }
 
-        public void Move()
+        public void MoveRight()
         {
-            x += xSpeed;
-
-            
-
+          x -= xSpeed;
         }
+
     }
 }
+
+    
+

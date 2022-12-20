@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="rightCars.cs" />
     <EmbeddedResource Include="endScreen.resx">
       <DependentUpon>endScreen.cs</DependentUpon>
     </EmbeddedResource>

@@ -14,15 +14,18 @@ namespace SpaceRace
     public partial class Run : Form
     {
         Rectangle player1 = new Rectangle(120, 300, 20, 20);
+        Rectangle player2 = new Rectangle(400, 300, 20, 20);
         Random randGen = new Random();
 
         List<Carss> cars = new List<Carss>();
+        List<rightCars> rCars = new List<rightCars>();
 
         public static int player1Speed = 2;
+        public static int player2Speed = 2;
         public static int leftLines = 20;
         public static int rightLines = 20;
-        public static int ply1Score = 0;
-        public static int ply2Score = 0;
+          int ply1Score = 0;
+          int ply2Score = 0;
 
 
         public static string gameState = "waiting";
@@ -34,6 +37,8 @@ namespace SpaceRace
         public static bool downArrowDown = false;
         public static bool rightArrowDown = false;
         public static bool leftArrowDown = false;
+        public static bool dDown = false;
+        public static bool aDown = false;
 
         public static List<Rectangle> leftLine = new List<Rectangle>();
         public static List<Rectangle> rightLine = new List<Rectangle>();
@@ -80,6 +85,12 @@ namespace SpaceRace
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.D:
+                    dDown = true;
+                    break;
+                case Keys.A:
+                    aDown = true;
+                    break;
 
 
                 case Keys.Space:
@@ -117,6 +128,12 @@ namespace SpaceRace
                 case Keys.S:
                     sDown = false;
                     break;
+                case Keys.D:
+                    dDown = false;
+                    break;
+                case Keys.A:
+                    aDown = false;
+                    break;
                 case Keys.Up:
                     upArrowDown = false;
                     break;
@@ -135,85 +152,118 @@ namespace SpaceRace
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             //move player 1 
-            if (downArrowDown == true && player1.Y > 0)
+            if (downArrowDown == true && player2.Y > 0)
+            {
+                player2.Y += player2Speed;
+            }
+
+            if (upArrowDown == true && player2.Y < this.Height - player2.Height)
+            {
+                player2.Y -= player2Speed;
+            }
+            if (rightArrowDown == true && player2.Y > 0)
+            {
+                player2.X += player2Speed;
+            }
+            if (leftArrowDown == true && player2.X < this.Width - player2.Width)
+            {
+                player2.X -= player2Speed;
+            }
+            //move player 2
+            if (sDown == true && player1.Y > 0)
             {
                 player1.Y += player1Speed;
             }
 
-            if (upArrowDown == true && player1.Y < this.Height - player1.Height)
+            if (wDown == true && player1.Y < this.Height - player1.Height)
             {
                 player1.Y -= player1Speed;
             }
-            if (rightArrowDown == true && player1.Y > 0)
+            if (dDown == true && player1.Y > 0)
             {
                 player1.X += player1Speed;
             }
-            if (leftArrowDown == true && player1.X < this.Width - player1.Width)
+            if (aDown == true && player1.X < this.Width - player1.Width)
             {
                 player1.X -= player1Speed;
             }
 
-            rightLines--;
+            int randValue = randGen.Next(1, 100);
 
-            if (rightLines == 0)
+            if (randValue < 10)
             {
-                cars.Add(new Carss(0, randGen.Next(2, 250)));
-                rightLines = 10;
-                //lineSpeeds.Add(randGen.Next(2, 10));
+                cars.Add(new Carss(0, randGen.Next(1, this.Height - 120), 6));
             }
+            else if (randValue < 20)
+            {
+                cars.Add(new Carss(this.Width, randGen.Next(1, this.Height - 120), -6));
+
+            }
+
+
 
             foreach (Carss car in cars)
             {
                 car.Move();
             }
+            //foreach (rightCars right in rCars)
+            //{
+            //    right.MoveRight();
+            //}
 
             if (player1.Y == 0)
             {
-                gameState = "Win";
-                titleLabel.Text = $"Youve Won!!!";
+                ply1Score++;
 
+                p1Score.Text = $"{ply1Score}";
 
-                player1.X = 75;
+                player1.X = 120;
                 player1.Y = 300;
             }
+            if (player2.Y == 0)
+            {
+                ply2Score++;
 
-            //for (int i = 0; i < leftLine.Count(); i++)
-            //{
-            //    int x = leftLine[i].X + lineSpeeds[i];
-            //    int Y = 400;
-            //    leftLine[i] = new Rectangle(x, leftLine[i].Y, 5, 5);
-            //}
+                p2Score.Text = $"{ply2Score}";
 
-
-
-            //for (int i = 0; i < rightLine.Count(); i++)
-            //{
-            //    int x = rightLine[i].X - lineSpeeds[i];
-            //    int Y = 300;
-            //    rightLine[i] = new Rectangle(x, rightLine[i].Y, 5, 5);
-            //}
-
-            //rightLines--;
-            //if (rightLines == 0)
-            //{
-            //    rightLine.Add(new Rectangle(600, randGen.Next(2, 250), 5, 5));
-            //    rightLines = 20;
-            //    lineSpeeds.Add(randGen.Next(2, 10));
-            //}
+                player2.X = 400;
+                player2.Y = 300;
+            }
 
 
+
+           
+
+            //player 1 intercecting
+           
             for (int i = 0; i < cars.Count(); i++)
             {
                 Rectangle carRec = new Rectangle(cars[i].x, cars[i].y, cars[i].size, cars[i].size);
-                
+
                 if (player1.IntersectsWith(carRec))
                 {
                     player1.X = 120;
                     player1.Y = 300;
                     SoundPlayer ding = new SoundPlayer(Properties.Resources.pong);
                     ding.Play();
-                    gameState = "lost";
-                    titleLabel.Text = $"YOU SUCK!";
+                  
+
+
+                }
+            }
+            //player 2 intercecting
+
+            for (int i = 0; i < cars.Count(); i++)
+            {
+                Rectangle carRec = new Rectangle(cars[i].x, cars[i].y, cars[i].size, cars[i].size);
+
+                if (player2.IntersectsWith(carRec))
+                {
+                    player2.X = 400;
+                    player2.Y = 300;
+                    SoundPlayer ding = new SoundPlayer(Properties.Resources.pong);
+                    ding.Play();
+                    
 
 
 
@@ -221,33 +271,19 @@ namespace SpaceRace
             }
 
 
-            //for (int i = 0; i < rightLine.Count(); i++)
-            //{
-            //    if (player1.IntersectsWith(rightLine[i]))
-            //    {
-            //        player1.X = 120;
-            //        player1.Y = 300;
-            //        SoundPlayer ding = new SoundPlayer(Properties.Resources.pong);
-            //        ding.Play();
-            //    }
-            //}
 
-            //if(player1.Y == 0)
-            //{
-
-            //    player1.X = 120;
-            //    player1.Y = 300;
-
-
-
-            //}
-
-            //if (ply2Score == 3)
-            //{
-            //    winLabel.Text = "Player Wins!!";
-            //    gameTimer.Enabled = false;
-            //    gameState = "Win"; 
-            //}
+            if (ply1Score == 3)
+            {
+                winLabel.Text = "Player 1 Wins!!";
+                gameTimer.Enabled = false;
+                gameState = "Win";
+            }
+            if (ply2Score == 3)
+            {
+                winLabel.Text = "Player 2 Wins!!";
+                gameTimer.Enabled = false;
+                gameState = "Win";
+            }
             if (gameState == "Win")
             {
                 SubTitle.Text = "Press Esc To Exit";
@@ -255,17 +291,32 @@ namespace SpaceRace
 
             Refresh();
         }
-
+        
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-
+            for (int i = 0; i < cars.Count; i++)
+            {
+                if (cars[i].x < 0 && cars[i].xSpeed > this.Width)
+                {
+                    cars.Remove(cars[i]);
+                }
+                else if (cars[i].x > this.Width && cars[i].xSpeed < 0)
+                {
+                    cars.Remove(cars[i]);
+                }
+            }
             foreach (Carss car in cars)
             {
                 e.Graphics.FillRectangle(whiteBrush, car.x, car.y, car.size, car.size);
+                
+            }
+            foreach (rightCars right in rCars)
+            {
+                e.Graphics.FillRectangle(whiteBrush, right.x ,right.y, right.size, right.size);
             }
 
             e.Graphics.FillRectangle(greenBrush, player1);
-
+            e.Graphics.FillRectangle(greenBrush, player2);
 
             if (gameState == "waiting")
 
@@ -294,7 +345,7 @@ namespace SpaceRace
             }
             else if (gameState == "lost")
             {
-                titleLabel.Text = "You Have Been HIT!";
+                titleLabel.Text = "";
 
                 SubTitle.Text += "\nPress Space Bar to Start";
             }
@@ -314,6 +365,11 @@ namespace SpaceRace
         }
 
         private void SubTitle_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }
